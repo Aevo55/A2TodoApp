@@ -95,6 +95,18 @@ function clearEdits(){
      }
 }
 
+function allDone(index){
+     if(listList[index].items.length == 0){
+          return false;
+     }
+     for(let i = 0; i < listList[index].items.length; i++){
+          if(!listList[index].items[i].done){
+               return false;
+          }
+     }
+     return true;
+}
+
 function removeItem(index){
      currList.items = currList.items.toSpliced(index, 1)
 }
@@ -129,7 +141,7 @@ $inspect(listList)
                {#if item.edit}
                <input class="rowTextInput" type="text" autofocus bind:value={item.text} onkeydown={(event) => textBoxEnterCheck(event)}>
                {:else}
-               <div class="rowText">{item.text}</div>
+               <div class={allDone(index) ? "rowText rowTextDone" : "rowText"}>{item.text}</div>
                {/if}
                <div class="_row _jend rowButtons">
                     {#if !item.edit}
