@@ -51,7 +51,7 @@ function trashList(){
 
 function newList(){
      listList.push({
-          name: "New List " + (listList.length + 1),
+          text: "New List " + (listList.length + 1),
           items: [],
           edit: false,
           color: "#FFECA1"
@@ -66,29 +66,33 @@ function editListName(index){
      listList[index].edit = !oldEdit;
 }
 
+
+
 function openList(index){
      currList = listList[index]
 }
 
 function createItem(){
      currList.items.push({
-          text: "",
+          text: "New Item " + (currList.items.length + 1),
           done: false,
           edit: false
      })
 }
 
-function addItem(event) {
-     event.preventDefault()
-     if (newItem == '') {
-          return
+function textBoxEnterCheck(event){
+     if(event.key === 'Enter'){
+          clearEdits()
      }
-     currList.items.push({
-          text: newItem,
-          done: false,
-          edit: false
-     })
-     newItem = ""
+}
+
+function clearEdits(){
+     for(let i = 0; i < listList.length; i++){
+          listList[i].edit = false;
+          for(let j = 0; j < listList[i].items.length; j++){
+               listList[i].items[j].edit = false;
+          }
+     }
 }
 
 function removeItem(index){
@@ -100,7 +104,11 @@ function toggleDone(index){
 }
 
 function toggleEdit(index){
-     currList.items[index].edit = !currList.items[index].edit
+     let oldEdit = currList.items[index].edit
+     for(let i = 0; i < currList.items.length; i++){
+          currList.items[i].edit = false;
+     }
+     currList.items[index].edit = !oldEdit;
 }
 
 $inspect(listList)
@@ -119,9 +127,9 @@ $inspect(listList)
           {#each listList as item, index}
           <div class="listItem _row _jbetween ">
                {#if item.edit}
-               <input class="rowTextInput" type="text" autofocus bind:value={item.name}>
+               <input class="rowTextInput" type="text" autofocus bind:value={item.text} onkeydown={(event) => textBoxEnterCheck(event)}>
                {:else}
-               <div class="rowText">{item.name}</div>
+               <div class="rowText">{item.text}</div>
                {/if}
                <div class="_row _jend rowButtons">
                     {#if !item.edit}
@@ -134,29 +142,38 @@ $inspect(listList)
                </div>
           </div>
           {/each}
-          <div class="_row listItem">
-               <button type="button" title="New List" onclick={() => newList()}>+</button>
+          <div class="_row listItem _jend _100">
+               <button class="addButton" type="button" title="New List" onclick={() => newList()}>+</button>
           </div>
      </div> 
      {:else}
+
      <div class="listHolder">
-          <div class="_row"> 
-               <h2>{currList.name}</h2>
-               <button type="button" title="Open" onclick={() => goBack()}>⮐</button>
+          <div class="_row _acenter _jbetween listTitle"> 
+               <h2>{currList.text}</h2>
+               <button class="backButton" type="button" title="Open" onclick={() => goBack()}>⮐</button>
           </div>
          
           {#each currList.items as item, index}
-          <div class="_row _jbetween">
-               <div class="rowText">{item.text}</div>
+          <div class="listItem _row _jbetween">
+               {#if item.edit}
+               <input class="rowTextInput" type="text" autofocus bind:value={item.text} onkeydown={(event) => textBoxEnterCheck(event)}>
+               {:else}
+               <div class={item.done ? "rowText rowTextDone" : "rowText"}>{item.text}</div>
+               {/if}
                <div class="_row _jend rowButtons">
+                    {#if !item.edit}
                     <button class="rowButton" type="button" title="Edit" onclick={() => toggleEdit(index)}>✎</button>
-                    <button class="rowButton" type="button" title="Done" onclick={() => toggleDone(index)}>☑</button>
-                    <button class="rowButton" type="button" title="Remove" onclick={() => removeItem(index)}>🗑</button>
+                    {:else}
+                    <button class="rowButton" type="button" title="Edit" onclick={() => toggleEdit(index)}>&#10003;</button>
+                    {/if}
+                    <button class="rowButton" type="button" title="Done" onclick={() => toggleDone(index)}>&#9745;</button>
+                    <button class="rowButton" type="button" title="Remove" onclick={() => removeItem(index)}>&#128465;</button>
                </div>
           </div>
           {/each}
-          <div class="_row listItem">
-               <button type="button" title="New Item" onclick={() => createItem()}>+</button>
+          <div class="_row listItem _jend _100">
+               <button class="addButton" type="button" title="New Item" onclick={() => createItem()}>+</button>
           </div>
      </div>
      {/if}
@@ -166,10 +183,10 @@ $inspect(listList)
 
 <style>
      .listHolder{
+          margin: 20px;
+          padding: 10px 30px 0px 30px;
           width: 80vw;
           background-color: #f9ff3e;
-          margin: 20px;
-          padding: 10px 20px;
           display: flex;
           flex-direction: column;
           align-items: flex-start;
@@ -183,32 +200,85 @@ $inspect(listList)
 
      .listItem{
           position: relative;
-          height: 50px;
+          height: 55px;
           align-items: center;
           width: 100%;
      }
-     
+
      .listItem:not(:first-child)::before {
           position: absolute;
           display: block;
           content: "";
           width: calc(80vw + 10px);
           top: 0px;
-          left: -10px;
+          left: -5px;
           height: 1.5px;
-          background-color: grey;
+          background-color: grey; 
      }
 
      .rowText{
-          margin-left: 20px;
+          margin-left: 0px;
+          font-size: 1.4em;
+     }
+
+     .rowTextDone{
+          text-decoration: line-through;
+     }
+
+     .rowTextInput{
+          margin-left: 0px;
+          font-size: 1.4em;
+          font-family: "Mulish", sans-serif;
+          font-optical-sizing: auto;
+          font-weight: 5vw;
+          font-style: normal;
      }
 
      button{
-
           margin: 0px 0.3vw;
      }
 
+     .rowButton{
+          width: 40px;
+          font-weight: 800;
+          font-size: 1em;
+     }
+
+     .addButton{
+          width: 130px;
+          height: 30px;
+          font-weight: 800;
+          font-size: 1em;
+     }
+
      .rowButtons{
-          height: 70%;
+          height: 30px;
+     }
+
+     .backButton{
+          height: 80%;
+          width: 130px;
+          font-size: large;
+          margin-left: 50px;
+     }
+
+     
+
+     .listTitle{
+          width: 100%;
+          height: 50px;
+          margin: 5px 0px;
+     }
+
+     .listTitle::before{
+          content:"";
+          width: 170px;
+          display: block;
+     }
+
+     h2{
+          margin: 0px;
+          padding: 0px;
+          font-size: 2.2em;
      }
 </style>
