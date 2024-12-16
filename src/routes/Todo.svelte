@@ -184,6 +184,7 @@ $inspect(listList)
 <style>
      .listHolder{
           margin: 20px;
+          margin-top: 15px;
           padding: 10px 30px 0px 30px;
           width: 80vw;
           background-color: #f9ff3e;
@@ -238,6 +239,15 @@ $inspect(listList)
           margin: 0px 0.3vw;
      }
 
+     .headerButton{
+          width: 60px;
+          height: 40px;
+          font-size: 1.5em;
+          margin-left: 0px;
+          margin-right: 15px;
+          padding: 0px;
+     }
+
      .rowButton{
           width: 40px;
           font-weight: 800;
@@ -259,26 +269,30 @@ $inspect(listList)
           height: 80%;
           width: 130px;
           font-size: large;
-          margin-left: 50px;
      }
 
-     
+     .buttonBar{
+          margin-left: 20px;
+          padding: 0px;
+     }
 
      .listTitle{
           width: 100%;
           height: 50px;
           margin: 5px 0px;
+          padding: 0px;
      }
 
      .listTitle::before{
           content:"";
-          width: 170px;
+          width: 130px;
           display: block;
      }
 
      h2{
           margin: 0px;
           padding: 0px;
-          font-size: 2.2em;
+          font-size: 1.5em;
+          text-wrap: nowrap;
      }
 </style>
