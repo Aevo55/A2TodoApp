@@ -2,6 +2,7 @@ body {
      font-family: "Bungee Spice", sans-serif;
      font-weight: 400;
      font-style: normal; 
+     background-color: rgb(255, 255, 205);
 }
 
 .bungee-spice-regular {
@@ -38,6 +39,10 @@ body {
 
 ._jevenly{
      justify-content: space-evenly;
+}
+
+._jend{
+     justify-content: flex-end;
 }
 
 ._jcenter{
