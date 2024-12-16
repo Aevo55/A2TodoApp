@@ -9,4 +9,45 @@ body {
      font-weight: 400;
      font-style: normal;
 }
-   
+
+._row{
+     display: flex;
+     flex-direction: row;
+}
+
+._col{
+     display: flex;
+     flex-direction: column;
+}
+
+._jstart{
+     justify-content: flex-start;
+}
+
+._astart{
+     align-items: flex-start;
+}
+
+._jaround{
+     justify-content: space-around;
+}
+
+._jbetween{
+     justify-content: space-between;
+}
+
+._jevenly{
+     justify-content: space-evenly;
+}
+
+._jcenter{
+     justify-content: center;
+}
+
+._acenter{
+     align-items: center;
+}
+
+ul{
+     list-style: none;
+}
